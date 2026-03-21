@@ -2,7 +2,7 @@ import os
 from google import genai
 from app.models import PropertyType
 
-GEMINI_MODEL = "gemini-3.1-pro"
+GEMINI_MODEL = "gemini-3.1-pro-preview"
 
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY", ""))
 
