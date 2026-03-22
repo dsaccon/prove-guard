@@ -6,6 +6,8 @@ Built at the [Zero to Agent: Vercel x DeepMind Hackathon SF](https://cerebralval
 
 **Live demo:** [prove-guard.vercel.app](https://prove-guard.vercel.app)
 
+**Video demo:** [Watch on YouTube](https://youtu.be/axmYk5XNOxs)
+
 ## What it does
 
 Prove Guard analyzes Python functions for three classes of runtime safety bugs using formal verification — not heuristics, not AI guessing, but machine-checked mathematical proofs via the [Lean 4](https://lean-lang.org/) theorem prover.
