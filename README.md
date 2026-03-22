@@ -84,6 +84,20 @@ npm install
 BACKEND_URL=http://localhost:8080 npm run dev
 ```
 
+## Why Lean
+
+The three properties we check today (division by zero, index bounds, None dereference) can be caught by existing static analysis tools. We chose them because they're simple enough to demonstrate the architecture in a hackathon.
+
+The real value of Lean is proving things static analysis **cannot**:
+
+- **Algorithmic correctness** — "this sort function actually sorts," "this binary search returns the correct index"
+- **Protocol invariants** — "this payment flow never charges a user twice," "this state machine always reaches a valid end state"
+- **Cryptographic guarantees** — "this signature verification accepts iff the signature is valid"
+- **Concurrency safety** — "these concurrent operations never produce inconsistent state"
+- **Numerical properties** — "this financial calculation never loses precision beyond N decimal places"
+
+Static analysis follows rules. Formal verification proves theorems. The architecture we built — AI translates code to Lean, Lean compiler verifies the proof — scales to properties that are fundamentally impossible for pattern-matching tools. What we showed today is the proof of concept; the properties above are where it gets interesting.
+
 ## Limits
 
 - Max 20 Python files scanned per repo
