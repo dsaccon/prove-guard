@@ -102,7 +102,16 @@ Static analysis follows rules. Formal verification proves theorems. The architec
 
 **Can we trust the AI-generated proofs?**
 
-The AI (Gemini) doesn't need to be correct — it just generates a *candidate* Lean program. The Lean compiler is what we trust. Lean is deterministic and mechanically checks whether the proof is valid. If Gemini generates garbage, Lean rejects it and we return "inconclusive" or "potentially unsafe." A "proven safe" result means Lean verified the proof, regardless of how it was generated. The one caveat: a false positive is possible if Gemini *models* the Python function incorrectly — the proof would be valid, but proving the wrong thing. Improving that translation fidelity is where the future work is.
+The AI (Gemini) doesn't need to be correct — it just generates a *candidate* Lean program. The Lean compiler is what we trust. Lean is deterministic and mechanically checks whether the proof is valid. If Gemini generates garbage, Lean rejects it and we return "inconclusive" or "potentially unsafe." A "proven safe" result means Lean verified the proof, regardless of how it was generated.
+
+The one caveat: a false positive is possible if Gemini *models* the Python function incorrectly — the proof would be valid, but proving the wrong thing. For example, given this Python function:
+
+```python
+def avg(items):
+    return sum(items) / len(items)
+```
+
+Gemini might model it in Lean as a function that takes a *non-empty* list (`items : List Int` with a precondition `h : items.length > 0`), then easily prove no division by zero occurs. The proof is mathematically valid — but the model is wrong, because the real Python function accepts empty lists too. The proof proved safety for a *stronger* precondition than the code actually enforces. Improving that translation fidelity is where the future work is.
 
 **Why not just use existing static analysis tools (pylint, mypy)?**
 
