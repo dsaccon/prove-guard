@@ -98,6 +98,24 @@ The real value of Lean is proving things static analysis **cannot**:
 
 Static analysis follows rules. Formal verification proves theorems. The architecture we built — AI translates code to Lean, Lean compiler verifies the proof — scales to properties that are fundamentally impossible for pattern-matching tools. What we showed today is the proof of concept; the properties above are where it gets interesting.
 
+## FAQ
+
+**Can we trust the AI-generated proofs?**
+
+The AI (Gemini) doesn't need to be correct — it just generates a *candidate* Lean program. The Lean compiler is what we trust. Lean is deterministic and mechanically checks whether the proof is valid. If Gemini generates garbage, Lean rejects it and we return "inconclusive" or "potentially unsafe." A "proven safe" result means Lean verified the proof, regardless of how it was generated. The one caveat: a false positive is possible if Gemini *models* the Python function incorrectly — the proof would be valid, but proving the wrong thing. Improving that translation fidelity is where the future work is.
+
+**Why not just use existing static analysis tools (pylint, mypy)?**
+
+The three properties we check today can be caught by static analysis. We chose them because they're simple enough to demonstrate the architecture. The real value of Lean is proving things static analysis *cannot* — see the [Why Lean](#why-lean) section above.
+
+**What does "Potentially Unsafe" actually mean?**
+
+It means Lean could not prove the property holds. This could be a real bug (e.g., a function that genuinely can divide by zero), or it could be that the AI-generated formalization wasn't precise enough for Lean to verify. Either way, it's worth investigating — the Lean code and compiler output are shown so you can see exactly why the proof failed.
+
+**What languages are supported?**
+
+Python only, for now. The architecture generalizes to any language — you just need an AST parser and Gemini prompt templates for the target language. Python was chosen because it's the most popular language in AI/ML and has no built-in safety guarantees.
+
 ## Limits
 
 - Max 20 Python files scanned per repo
